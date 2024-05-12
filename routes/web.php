@@ -27,3 +27,12 @@ Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('admin.ed
 Route::post('/admin', [AdminController::class, 'store'])->name('admin.store');
 Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+
+
+Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
+Route::post('/admin/categories-create', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
+Route::get('/admin/categories/edit/{id}', [AdminController::class, 'editCategory'])->name('admin.categories.edit');
+Route::put('/admin/categories/edited', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
+Route::delete('/admin/categories/{id}', [AdminController::class, 'destroyCategory'])->name('admin.categories.destroy', function ($id) {
+    
+});

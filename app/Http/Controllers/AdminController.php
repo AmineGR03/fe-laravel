@@ -36,16 +36,16 @@ class AdminController extends Controller
             'info' => 'required|string',
             'pic' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric',
-            'highlight' => 'required|boolean', // Change 'hightlight' to 'highlight'
+            'highlight' => 'required|boolean', 
         ]);
     
-        // Get the original filename
+        
         $imageName = $request->file('pic')->getClientOriginalName();
     
-        // Store the image with the original filename
+        
         $request->file('pic')->storeAs('public/images', $imageName);
     
-        // Save the image filename in the database
+        
         $menu = new Menu();
         $menu->categorie = $request->categorie;
         $menu->name = $request->name;
@@ -60,10 +60,7 @@ class AdminController extends Controller
     }
 
     
-public function categories()
-{
-    return view('admin.categories');
-}
+
     public function edit($id)
     {
         $menu = Menu::findOrFail($id);
@@ -79,12 +76,11 @@ public function categories()
         'info' => 'required|string',
         'pic' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         'price' => 'required|numeric',
-        'highlight' => 'required|boolean', // Change 'hightlight' to 'highlight'
-    ]);
+        'highlight' => 'required|boolean', ]);
 
     $menu = Menu::findOrFail($id);
 
-    // Check if a new image is uploaded
+    
     if ($request->hasFile('pic')) {
         $imageName = $request->file('pic')->getClientOriginalName();
         $request->file('pic')->storeAs('public/images', $imageName);
@@ -108,5 +104,41 @@ public function categories()
         $menu->delete();
 
         return redirect()->route('admin.products');
+    }
+
+    public function categories()
+{
+    return view('admin.categories');
+}
+    public function storeCategory()
+    {   
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $category = new Categorie();
+        $category->name = $request->name;
+        $category->save();
+        return redirect()->route('admin.categories');
+    }
+    public function editCategory($id)
+    {
+        $category = Categorie::findOrFail($id);
+        return view('admin.editCategory', compact('category'));
+    }
+    public function updateCategory($id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $category = Categorie::findOrFail($id);
+        $category->name = $request->name;
+        $category->save();
+        return redirect()->route('admin.categories');
+    }
+    public function destroyCategory($id)
+    {
+        $category = Categorie::findOrFail($id);
+        $category->delete();
+        return redirect()->route('admin.categories');
     }
 }
