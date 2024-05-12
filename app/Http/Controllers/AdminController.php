@@ -24,63 +24,83 @@ class AdminController extends Controller
 
     public function create()
     {
-        return view('Admin.create');
+        $categorie=Categorie::all();
+        return view('Admin.create',compact('categories'));
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'categorie' => 'required|string|max:255',
-        'name' => 'required|string|max:255',
-        'info' => 'required|string',
-        'pic' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'price' => 'required|numeric',
-        'hightlight'=>'required|boolean'
-    ]);
-
-    // Get the original filename
-    $imageName = $request->file('pic')->getClientOriginalName();
-
-    // Store the image with the original filename
-    $request->file('pic')->storeAs('public/images', $imageName);
-
-    // Save the image filename in the database
-    $menu = new Menu();
-    $menu->categorie = $request->categorie;
-    $menu->name = $request->name;
-    $menu->info = $request->info;
-    $menu->pic = $imageName;
-    $menu->hightlight = $request->hightlight; 
-    $menu->price = $request->price;
-    $menu->save();
-
-    return redirect()->route('admin.products');
-}
-
-    
-
-    public function edit($id)
-    {
-        $menu = Menu::findOrFail($id);
-        return view('Admin.edit', compact('menu'));
-    }
-
-    public function update(Request $request, $id)
     {
         $request->validate([
             'categorie' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'info' => 'required|string',
-            'pic' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'pic' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric',
-            'hightlight'=>'required|boolean'
+            'highlight' => 'required|boolean', // Change 'hightlight' to 'highlight'
         ]);
-
-        $menu = Menu::findOrFail($id);
-        $menu->update($request->all());
-
-        return redirect()->route('admin.home');
+    
+        // Get the original filename
+        $imageName = $request->file('pic')->getClientOriginalName();
+    
+        // Store the image with the original filename
+        $request->file('pic')->storeAs('public/images', $imageName);
+    
+        // Save the image filename in the database
+        $menu = new Menu();
+        $menu->categorie = $request->categorie;
+        $menu->name = $request->name;
+        $menu->info = $request->info;
+        $menu->pic = $imageName;
+        $menu->highlight = $request->highlight; 
+        $menu->highlight_note = $request->highlight_note;
+        $menu->price = $request->price;
+        $menu->save();
+    
+        return redirect()->route('admin.products');
     }
+
+    
+public function categories()
+{
+    return view('admin.categories');
+}
+    public function edit($id)
+    {
+        $menu = Menu::findOrFail($id);
+        $categorie=Categorie::all();
+        return view('Admin.edit', compact(['menu','categories']));
+    }
+
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'categorie' => 'required|string|max:255',
+        'name' => 'required|string|max:255',
+        'info' => 'required|string',
+        'pic' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'price' => 'required|numeric',
+        'highlight' => 'required|boolean', // Change 'hightlight' to 'highlight'
+    ]);
+
+    $menu = Menu::findOrFail($id);
+
+    // Check if a new image is uploaded
+    if ($request->hasFile('pic')) {
+        $imageName = $request->file('pic')->getClientOriginalName();
+        $request->file('pic')->storeAs('public/images', $imageName);
+        $menu->pic = $imageName;
+    }
+
+    $menu->categorie = $request->categorie;
+    $menu->name = $request->name;
+    $menu->info = $request->info;
+    $menu->highlight = $request->highlight; 
+    $menu->price = $request->price;
+    $menu->highlight_note = $request->highlight_note;
+    $menu->save();
+
+    return redirect()->route('admin.home');
+}
 
     public function destroy($id)
     {

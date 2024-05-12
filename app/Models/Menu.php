@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
-    protected $fillable = ['categorie', 'name', 'info', 'pic', 'price','highlight'];
+    protected $fillable = ['categorie', 'name', 'info', 'pic', 'price','highlight','highlight_note'];
 
     public function toArray()
     {
