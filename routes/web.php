@@ -20,11 +20,11 @@ Route::get('/', function () {
 
 Route::get('/admin', [AdminController::class, 'home'])->name('admin.home');
 Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
-Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.create');
+Route::get('/admin/products/create', [AdminController::class, 'create'])->name('admin.create');
 Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
 
 
-Route::post('/admin', [AdminController::class, 'store'])->name('admin.store');
+Route::post('/admin/producted-created', [AdminController::class, 'store'])->name('admin.store');
 Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
@@ -32,7 +32,7 @@ Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.d
 Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
 Route::post('/admin/categories-create', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
 Route::get('/admin/categories/edit/{id}', [AdminController::class, 'editCategory'])->name('admin.categories.edit');
-Route::put('/admin/categories/edited', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
-Route::delete('/admin/categories/{id}', [AdminController::class, 'destroyCategory'])->name('admin.categories.destroy', function ($id) {
+Route::put('/admin/categories/edited/{id}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
+Route::delete('/admin/categories/destroy/{id}', [AdminController::class, 'destroyCategory'])->name('admin.categories.destroy', function ($id) {
     
 });

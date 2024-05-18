@@ -25,7 +25,7 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/create" style="color: white;">Create</a>
+                        <a class="nav-link" href="/admin/categories" style="color: white;">Categories</a>
                     </li>
                 </ul>
             </div>
@@ -36,6 +36,7 @@
 <div class="container">
     <?php echo $__env->yieldContent('products'); ?>
     <?php echo $__env->yieldContent('creation'); ?>
+    <?php echo $__env->yieldContent('categories'); ?>
 </div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

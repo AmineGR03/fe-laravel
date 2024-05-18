@@ -4,10 +4,18 @@
     <div class="container mt-5">
         <h1>Create Product</h1>
         <form action="<?php echo e(route('admin.store')); ?>" method="POST" enctype="multipart/form-data" id="productForm">
+
             <?php echo csrf_field(); ?>
             <div class="form-group">
+            <div class="form-group">
                 <label for="categorie">Category:</label>
-                <input type="text" class="form-control" id="categorie" name="categorie" required>
+                <select class="form-control" id="categorie" name="categorie" required>
+                    <option value="">Choose a category</option>
+                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($category->name); ?>"><?php echo e($category->name); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+            </div>
             </div>
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -62,5 +70,4 @@
         });
     </script>
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('admin.home', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\dell\Desktop\PFE\pfe-laravel\resources\views/Admin/create.blade.php ENDPATH**/ ?>

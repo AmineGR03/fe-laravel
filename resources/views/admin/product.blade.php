@@ -3,6 +3,7 @@
 @section('products')
     <div class="container" style="border: 2px solid #000033; padding: 20px; margin-top: 20px;">
         <h1 class="mt-5">All Products</h1>
+        <div><button type="button" class="btn btn-primary" onclick="window.location.href='/admin/products/create'">Add Product</button></div>
         <table class="table mt-4" border="1">
             <thead style="background-color: #000033; color: white;">
                 <tr>

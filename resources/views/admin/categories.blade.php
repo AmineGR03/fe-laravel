@@ -1,4 +1,4 @@
-@extends('admin');
+@extends('admin.home')
 @section('categories')
     <h2>Ajouter Des Categories</h2>
     <form action="/admin/categories-create" method="POST">

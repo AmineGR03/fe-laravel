@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu; 
+use App\Models\Categorie;
 
 class AdminController extends Controller
 {
@@ -24,7 +25,7 @@ class AdminController extends Controller
 
     public function create()
     {
-        $categorie=Categorie::all();
+        $categories=Categorie::all();
         return view('Admin.create',compact('categories'));
     }
 
@@ -64,7 +65,7 @@ class AdminController extends Controller
     public function edit($id)
     {
         $menu = Menu::findOrFail($id);
-        $categorie=Categorie::all();
+        $categories=Categorie::all();
         return view('Admin.edit', compact(['menu','categories']));
     }
 
@@ -108,9 +109,10 @@ class AdminController extends Controller
 
     public function categories()
 {
-    return view('admin.categories');
+    $categories = Categorie::all();
+    return view('admin.categories', compact('categories'));
 }
-    public function storeCategory()
+    public function storeCategory(Request $request)
     {   
         $request->validate([
             'name' => 'required|string|max:255',
@@ -125,7 +127,7 @@ class AdminController extends Controller
         $category = Categorie::findOrFail($id);
         return view('admin.editCategory', compact('category'));
     }
-    public function updateCategory($id)
+    public function updateCategory(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
