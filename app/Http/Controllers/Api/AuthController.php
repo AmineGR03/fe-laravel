@@ -41,10 +41,16 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password)
             ]);
 
+            $user->createToken('API TOKEN')->accessToken;
+
+            $user->remember_token = $user->createToken('API TOKEN')->accessToken;
+            $user->save();
+
+            $token = $user->createToken('API TOKEN', ['*'])->plainTextToken;
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $user->remember_token
             ], 200);
 
         } catch (\Throwable $th) {

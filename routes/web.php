@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\Api\MenuController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +24,7 @@ Route::get('/admin/products/create', [AdminController::class, 'create'])->name('
 Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('admin.edit');
 
 
-Route::post('/admin/producted-created', [AdminController::class, 'store'])->name('admin.store');
+Route::post('/admin/product-created', [AdminController::class, 'store'])->name('admin.store');
 Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 

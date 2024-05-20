@@ -11,8 +11,8 @@ Route::get('/hey',function()
 {
     return (['hey'=>'hey there']);
 });
-Route::post('/register', [RegisterApiController::class,"register"]);
-Route::post('/login', [LoginApiController::class,'login']);
+Route::post('/register', [App\Http\Controllers\Api\AuthController::class,'createUser']);
+Route::post('/login', [App\Http\Controllers\Api\AuthController::class,'login']);
 
 
 Route::prefix('menus')->group(function () {
