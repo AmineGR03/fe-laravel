@@ -2,13 +2,13 @@
 
 <?php $__env->startSection('creation'); ?>
 <div class="container">
-    <h1>Add New Menu Item</h1>
+    <h1>Add Product</h1>
     <form action="<?php echo e(route('admin.store')); ?>" method="POST" enctype="multipart/form-data">
         <?php echo csrf_field(); ?>
         
         <div class="form-group">
             <label for="categorie">Category</label>
-            <select class="form-control <?php $__errorArgs = ['category'];
+           <select class="form-control <?php $__errorArgs = ['category'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -168,7 +168,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
         </div>
 
-        <button type="submit" class="btn btn-primary">Add Menu Item</button>
+        <button type="submit" class="btn btn-primary">Add </button>
     </form>
 </div>
 <?php $__env->stopSection(); ?>

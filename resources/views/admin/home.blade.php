@@ -38,6 +38,7 @@
     @yield('creation')
     @yield('categories')
     @yield('category_update')
+    @yield('update_product')
 </div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

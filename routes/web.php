@@ -25,7 +25,7 @@ Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->name('admin.ed
 
 
 Route::post('/admin/product-created', [AdminController::class, 'store'])->name('admin.store');
-Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+Route::put('/admin/product/edited/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
 

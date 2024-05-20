@@ -38,6 +38,7 @@
     <?php echo $__env->yieldContent('creation'); ?>
     <?php echo $__env->yieldContent('categories'); ?>
     <?php echo $__env->yieldContent('category_update'); ?>
+    <?php echo $__env->yieldContent('update_product'); ?>
 </div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

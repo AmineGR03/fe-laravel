@@ -96,7 +96,7 @@ class AdminController extends Controller
     $menu->highlight_note = $request->highlight_note;
     $menu->save();
 
-    return redirect()->route('admin.home');
+    return redirect()->route('admin.products');
 }
 
     public function destroy($id)

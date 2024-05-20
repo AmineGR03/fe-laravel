@@ -13,4 +13,9 @@ class MenuController extends Controller
         $menus = Menu::all();
         return response()->json($menus);
     }
+    public function show ($id)
+    {
+        $menu = Menu::find($id);
+        return response()->json($menu);
+    }
 }
