@@ -14,45 +14,44 @@ class AuthController extends Controller
     /**
      * Create User
      * @param Request $request
-     * @return User 
+     * @return \Illuminate\Http\JsonResponse
      */
     public function createUser(Request $request)
     {
         try {
-            //Validated
-            $validateUser = Validator::make($request->all(), 
-            [
+            // Validate the request data
+            $validateUser = Validator::make($request->all(), [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required'
             ]);
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'validation error',
+                    'message' => 'Validation error',
                     'errors' => $validateUser->errors()
                 ], 401);
             }
 
+            // Create the user
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
 
-            $user->createToken('API TOKEN')->accessToken;
+            // Generate the token
+            $token = $user->createToken('API TOKEN')->plainTextToken;
 
-            $user->remember_token = $user->createToken('API TOKEN')->accessToken;
-            $user->save();
+            // Login the user
+            Auth::login($user);
 
-            $token = $user->createToken('API TOKEN', ['*'])->plainTextToken;
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'token' => $user->remember_token
+                'token' => $token
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -64,40 +63,43 @@ class AuthController extends Controller
     /**
      * Login The User
      * @param Request $request
-     * @return User
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function loginUser(Request $request)
+    public function login(Request $request)
     {
         try {
-            $validateUser = Validator::make($request->all(), 
-            [
+            // Validate the request data
+            $validateUser = Validator::make($request->all(), [
                 'email' => 'required|email',
                 'password' => 'required'
             ]);
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'validation error',
+                    'message' => 'Validation error',
                     'errors' => $validateUser->errors()
                 ], 401);
             }
 
-            if(!Auth::attempt($request->only(['email', 'password']))){
+            // Attempt to login
+            if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
+                    'message' => 'Email & Password do not match our records.'
                 ], 401);
             }
 
-            $user = User::where('email', $request->email)->first();
+            $user = Auth::user();
+
+            // Generate the token
+            $token = $user->createToken('API TOKEN')->plainTextToken;
 
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $token
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -105,4 +107,25 @@ class AuthController extends Controller
             ], 500);
         }
     }
-} 
+
+    /**
+     * Get User Info
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function userInfo(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            return response()->json([
+                'status' => true,
+                'user' => $user
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+}
