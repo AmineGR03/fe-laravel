@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\MenuController;
+use App\Http\Controllers\RevCtcController;
 
 Route::middleware('auth:sanctum')->get('/user', [App\Http\Controllers\Api\AuthController::class, 'userInfo']);
 Route::get('/hey',function()
@@ -13,6 +14,8 @@ Route::post('/register', [App\Http\Controllers\Api\AuthController::class,'create
 Route::post('/login', [App\Http\Controllers\Api\AuthController::class,'login']);
 
 
+
+
 Route::prefix('menus')->group(function () {
     Route::get('/', [MenuController::class, 'index']);
     Route::post('/', [MenuController::class, 'store']);
@@ -20,6 +23,11 @@ Route::prefix('menus')->group(function () {
     Route::put('/{id}', [MenuController::class, 'update']);
     Route::delete('/{id}', [MenuController::class, 'destroy']);
 });
+Route::post('/rev',[RevCtcController::class,'newReview']);
+Route::get('/reviews',[RevCtcController::class,'reviews']);
+Route::post('/ctc',[RevCtcController::class,'newContact']);
+
+
 Route::get('images/{filename}', function ($filename) {
     $path = public_path('images/' . $filename);
 
